@@ -1,40 +1,36 @@
 package com.example.demoscringo;
 
-import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.widget.TextView;
 
 import com.scringo.Scringo;
-import com.scringo.ScringoActivationButton;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 	Scringo scringo = new Scringo(this);
-	private static final String TAG = "QuizActivity";
+	
+	private static final String TAG = "a";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		 FragmentManager fm = getSupportFragmentManager();
+	        Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
 
+	        if (fragment == null) {
+	            fragment = new welcomeFragment();
+	            fm.beginTransaction()
+	                .add(R.id.fragmentContainer, fragment)
+	                .commit(); 
+	            }
 
 		scringo.init();
-	//	Scringo.setDebugMode(true);
-		Scringo.preloadChatRooms();
-		Scringo.openChatRooms(this);
-	//	String a=Scringo.getUserId();
-	//	Log.d(TAG,a);
-		((ScringoActivationButton) findViewById(R.id.activationButton2)).setScringo(scringo);
-//		((ScringoActivationButton) findViewById(R.id.activationButton1)).setScringo(scringo);
 
 	}
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-
-		return true;
-	}
 
 	@Override
 	protected void onStart() {
